@@ -14,4 +14,4 @@ A public archive of Phantom Peak Canada Water trail write-ups, organised by year
 
 The 2025 Hallowed Peak and Wintermas write-ups and the 2026 Great Undoing write-up were drafted from notes supplied for the archive. Earlier season PDFs are the supplied source files.
 
-The site is static and runs on GitHub Pages. Open `index.html` to browse locally.
+The site is static and runs on GitHub Pages at https://ppec.club/trail-notes/. For local browsing, serve the repository over HTTP so the page can load `trails.json`.
