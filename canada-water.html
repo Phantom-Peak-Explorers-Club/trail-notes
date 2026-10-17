@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5efe3">
+  <meta name="description" content="Browse Phantom Peak Canada Water trail write-ups by year and season.">
+  <title>Canada Water Trails · Phantom Peak Trail Archive</title>
+  <link rel="icon" href="assets/phantom-peak-logo.png">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="canada-water.js"></script>
+</head>
+<body class="archive-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="brand" href="index.html" aria-label="Phantom Peak Trail Archive home">
+      <img src="assets/phantom-peak-logo.png" alt="" width="46" height="46">
+      <span>TRAIL<span class="brand-accent">/</span>ARCHIVE</span>
+    </a>
+    <a class="header-back" href="index.html">← All locations</a>
+  </header>
+
+  <main id="main">
+    <section class="archive-intro wrap">
+      <div class="archive-intro-copy">
+        <p class="eyebrow">LOCATION 01 / CANADA WATER</p>
+        <h1>The Canada<br><em>Water years.</em></h1>
+        <p>Four years of stories, collected season by season. Choose a write-up to read the original PDF in your browser.</p>
+        <div class="archive-stats"><span><strong>2022–2025</strong> Seasons covered</span><span><strong>14</strong> Write-ups available</span></div>
+      </div>
+      <div class="archive-intro-art" aria-hidden="true"><span class="art-rays">✳</span><img src="assets/phantom-peak-logo.png" alt=""></div>
+    </section>
+
+    <section class="library wrap" aria-labelledby="library-heading">
+      <div class="library-heading">
+        <div><p class="eyebrow">THE COLLECTION</p><h2 id="library-heading">Browse the seasons</h2></div>
+        <label class="search-label" for="search">Search write-ups <input id="search" type="search" placeholder="Search by season or title…" autocomplete="off"></label>
+      </div>
+      <div class="year-filters" role="group" aria-label="Filter by year">
+        <button type="button" class="year-filter active" data-year="all" aria-pressed="true">All years</button>
+        <button type="button" class="year-filter" data-year="2022" aria-pressed="false">2022</button>
+        <button type="button" class="year-filter" data-year="2023" aria-pressed="false">2023</button>
+        <button type="button" class="year-filter" data-year="2024" aria-pressed="false">2024</button>
+        <button type="button" class="year-filter" data-year="2025" aria-pressed="false">2025</button>
+      </div>
+      <p class="results-count" id="results-count" role="status"></p>
+      <div class="season-grid" id="season-grid"></div>
+      <p class="no-results" id="no-results" hidden>No write-ups match that search. Try another season or year.</p>
+    </section>
+  </main>
+
+  <dialog class="reader" id="reader" aria-labelledby="reader-title">
+    <div class="reader-header">
+      <div><p class="eyebrow">ORIGINAL WRITE-UP</p><h2 id="reader-title"></h2></div>
+      <button type="button" class="reader-close" id="reader-close" aria-label="Close PDF reader">×</button>
+    </div>
+    <div class="reader-actions"><a id="reader-open" target="_blank" rel="noopener">Open PDF in a new tab ↗</a><a id="reader-download" download>Download PDF ↓</a></div>
+    <iframe id="reader-frame" title="PDF write-up" loading="lazy"></iframe>
+    <p class="reader-fallback">If the PDF does not appear above, use “Open PDF in a new tab”.</p>
+  </dialog>
+
+  <footer class="site-footer wrap"><span>PHANTOM PEAK TRAIL ARCHIVE</span><a href="index.html">All locations ↑</a></footer>
+</body>
+</html>
