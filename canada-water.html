@@ -6,15 +6,15 @@
   <meta name="theme-color" content="#f5efe3">
   <meta name="description" content="Search 187 Phantom Peak Canada Water trails by title, season, characters and theme. Read the recaps and download the season PDFs.">
   <title>Canada Water Trails · Phantom Peak Trail Archive</title>
-  <link rel="icon" href="assets/phantom-peak-logo.png">
-  <link rel="stylesheet" href="styles.css?v=3">
-  <script defer src="canada-water.js?v=3"></script>
+  <link rel="icon" href="assets/ppec-logo.png">
+  <link rel="stylesheet" href="styles.css?v=4">
+  <script defer src="canada-water.js?v=4"></script>
 </head>
 <body class="archive-page">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap">
     <a class="brand" href="index.html" aria-label="Phantom Peak Trail Archive home">
-      <img src="assets/phantom-peak-logo.png" alt="" width="46" height="46">
+      <img src="assets/ppec-logo.png" alt="" width="60" height="60">
       <span>TRAIL<span class="brand-accent">/</span>ARCHIVE</span>
     </a>
     <a class="header-back" href="index.html">← All locations</a>
@@ -28,20 +28,30 @@
         <p>Stories from 2022 to 2026, collected trail by trail. Search the recaps, explore the characters, and download each season write-up.</p>
         <div class="archive-stats"><span><strong>2022–2026</strong> Years covered</span><span><strong>187</strong> Trails indexed</span><span><strong>17</strong> Season PDFs</span></div>
       </div>
-      <div class="archive-intro-art" aria-hidden="true"><span class="art-rays">✳</span><img src="assets/phantom-peak-logo.png" alt=""></div>
+      <div class="archive-intro-art" aria-hidden="true"><img src="assets/ppec-logo.png" alt=""></div>
     </section>
 
     <section class="library wrap" aria-labelledby="library-heading">
-      <div class="library-heading">
-        <div><p class="eyebrow">THE COLLECTION</p><h2 id="library-heading">Find a trail</h2></div>
-        <label class="search-label" for="search">Search everything <input id="search" type="search" placeholder="Trail, character, theme…" autocomplete="off"></label>
+      <div class="library-heading"><div><p class="eyebrow">THE COLLECTION</p><h2 id="library-heading">Browse the trails</h2></div></div>
+      <div class="browse-panel">
+        <label for="browse-season"><span class="browse-step">01</span> Choose a season
+          <select id="browse-season"><option value="">Select a season…</option></select>
+        </label>
+        <label for="browse-trail"><span class="browse-step">02</span> Choose a trail
+          <select id="browse-trail" disabled><option value="">Select a trail…</option></select>
+        </label>
       </div>
-      <div class="filter-grid">
-        <label>Year <select id="year-filter"><option value="">All years</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></label>
-        <label>Season <select id="season-filter"><option value="">All seasons</option><option>Launch</option><option>Spring</option><option>Summer</option><option>Autumn</option><option>Winter</option><option>Special</option><option>Finale</option></select></label>
-        <label>Main character <select id="main-filter"><option value="">Any character</option></select></label>
-        <label>Other character <select id="other-filter"><option value="">Any character</option></select></label>
-        <label>Theme <select id="theme-filter"><option value="">Any theme</option></select></label>
+      <div class="archive-search">
+        <label class="search-label" for="search">Or search all trails <input id="search" type="search" placeholder="Trail, character, theme…" autocomplete="off"></label>
+        <details class="advanced-filters"><summary>More search filters</summary>
+          <div class="filter-grid">
+            <label>Year <select id="year-filter"><option value="">All years</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></label>
+            <label>Season <select id="season-filter"><option value="">All seasons</option><option>Launch</option><option>Spring</option><option>Summer</option><option>Autumn</option><option>Winter</option><option>Special</option><option>Finale</option></select></label>
+            <label>Main character <select id="main-filter"><option value="">Any character</option></select></label>
+            <label>Other character <select id="other-filter"><option value="">Any character</option></select></label>
+            <label>Theme <select id="theme-filter"><option value="">Any theme</option></select></label>
+          </div>
+        </details>
       </div>
       <div class="results-row"><p class="results-count" id="results-count" role="status"></p><button class="clear-filters" id="clear-filters" type="button">Clear filters</button></div>
       <div id="season-list"></div>

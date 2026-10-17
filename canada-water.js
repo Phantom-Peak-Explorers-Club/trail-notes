@@ -20,6 +20,8 @@ const seasons = [
 
 const list = document.querySelector('#season-list');
 const search = document.querySelector('#search');
+const browseSeason = document.querySelector('#browse-season');
+const browseTrail = document.querySelector('#browse-trail');
 const filters = {
   year: document.querySelector('#year-filter'),
   season: document.querySelector('#season-filter'),
@@ -57,7 +59,7 @@ function trailCard(trail) {
     imageBox.append(image);
   } else {
     imageBox.classList.add('empty');
-    imageBox.innerHTML = '<span aria-hidden="true">✦</span><small>TRAIL IMAGE TO FOLLOW</small>';
+    imageBox.innerHTML = '<span aria-hidden="true">✦</span><small>PORTRAIT IMAGE TO FOLLOW</small>';
   }
 
   const body = document.createElement('div');
@@ -67,10 +69,7 @@ function trailCard(trail) {
   number.textContent = `TRAIL ${String(trail.number).padStart(2, '0')}${trail.secret ? ' · SECRET TRAIL' : ''}`;
   const title = document.createElement('h4');
   title.textContent = trail.title;
-  const summary = document.createElement('p');
-  summary.className = 'trail-summary';
-  summary.textContent = trail.summary;
-  body.append(number, title, summary);
+  body.append(number, title);
 
   const meta = document.createElement('dl');
   meta.className = 'trail-meta';
@@ -100,7 +99,7 @@ function trailCard(trail) {
   return card;
 }
 
-function seasonSection(season, matches, filtered) {
+function seasonSection(season, matches, filtered, showCards = true) {
   const section = document.createElement('section');
   section.className = `season-section ${season.season.toLowerCase()}`;
   section.id = season.id;
@@ -138,11 +137,17 @@ function seasonSection(season, matches, filtered) {
     note.className = 'pending-season';
     note.textContent = 'The trail notes for this season will be added here when its write-up is ready.';
     section.append(note);
-  } else {
+  } else if (showCards) {
     const cards = document.createElement('div');
     cards.className = 'trail-grid';
+    if (matches.length === 1) cards.classList.add('single-trail');
     cards.append(...matches.map(trailCard));
     section.append(cards);
+  } else {
+    const note = document.createElement('p');
+    note.className = 'choose-trail-note';
+    note.textContent = 'Choose a trail above to read its recap, or open the complete season PDF.';
+    section.append(note);
   }
   return section;
 }
@@ -159,32 +164,66 @@ function matchesFilters(trail) {
 }
 
 function render() {
-  const matches = trails.filter(matchesFilters);
-  const filtered = Boolean(search.value.trim() || Object.values(filters).some(select => select.value));
-  const sections = seasons.filter(season => {
-    if (season.pending) return !filtered;
-    return matches.some(trail => trail.id.startsWith(`${season.id}-`));
-  }).map(season => seasonSection(season, matches.filter(trail => trail.id.startsWith(`${season.id}-`)), filtered));
-  list.replaceChildren(...sections);
-  count.textContent = `${matches.length} trail${matches.length === 1 ? '' : 's'} ${filtered ? 'found' : 'indexed'} across ${sections.filter(section => !section.querySelector('.pending-season')).length} season write-ups`;
-  noResults.hidden = matches.length !== 0;
+  const searching = Boolean(search.value.trim() || Object.values(filters).some(select => select.value));
+  if (searching) {
+    const matches = trails.filter(matchesFilters);
+    const sections = seasons.filter(season => matches.some(trail => trail.id.startsWith(`${season.id}-`)))
+      .map(season => seasonSection(season, matches.filter(trail => trail.id.startsWith(`${season.id}-`)), true));
+    list.replaceChildren(...sections);
+    count.textContent = `${matches.length} trail${matches.length === 1 ? '' : 's'} found across ${sections.length} season write-ups`;
+    noResults.hidden = matches.length !== 0;
+    return;
+  }
+  noResults.hidden = true;
+  const season = seasons.find(item => item.id === browseSeason.value);
+  if (!season) {
+    list.replaceChildren();
+    count.textContent = `${trails.length} trails across ${seasons.length} season write-ups. Choose a season to begin.`;
+    return;
+  }
+  const seasonTrails = trails.filter(trail => trail.id.startsWith(`${season.id}-`));
+  const selectedTrail = seasonTrails.find(trail => trail.id === browseTrail.value);
+  list.replaceChildren(seasonSection(season, selectedTrail ? [selectedTrail] : seasonTrails, Boolean(selectedTrail), Boolean(selectedTrail)));
+  count.textContent = selectedTrail ? '1 trail selected' : `${seasonTrails.length} trails in ${season.title} ${season.year}. Choose a trail above.`;
+}
+
+function resetTrailSelect() {
+  browseTrail.replaceChildren(new Option('Select a trail…', ''));
+  const seasonTrails = trails.filter(trail => trail.id.startsWith(`${browseSeason.value}-`));
+  seasonTrails.forEach(trail => browseTrail.add(new Option(`${String(trail.number).padStart(2, '0')} · ${trail.title}`, trail.id)));
+  browseTrail.disabled = !browseSeason.value;
 }
 
 async function initialise() {
   try {
-    const response = await fetch('trails.json?v=3');
+    const response = await fetch('trails.json?v=4');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     trails = await response.json();
+    seasons.forEach(season => browseSeason.add(new Option(`${season.year} · ${season.title}${season.number ? ` (Season ${season.number})` : ` · ${season.season}`}`, season.id)));
     addOptions(filters.main, trails.map(trail => trail.mainCharacter));
     addOptions(filters.other, trails.flatMap(trail => trail.otherCharacters));
     addOptions(filters.theme, trails.flatMap(trail => trail.themes));
-    search.addEventListener('input', render);
-    Object.values(filters).forEach(select => select.addEventListener('change', render));
+    browseSeason.addEventListener('change', () => {
+      search.value = '';
+      Object.values(filters).forEach(select => { select.value = ''; });
+      resetTrailSelect();
+      render();
+    });
+    browseTrail.addEventListener('change', render);
+    function startSearch() {
+      browseSeason.value = '';
+      resetTrailSelect();
+      render();
+    }
+    search.addEventListener('input', startSearch);
+    Object.values(filters).forEach(select => select.addEventListener('change', startSearch));
     document.querySelector('#clear-filters').addEventListener('click', () => {
       search.value = '';
       Object.values(filters).forEach(select => { select.value = ''; });
+      browseSeason.value = '';
+      resetTrailSelect();
       render();
-      search.focus();
+      browseSeason.focus();
     });
     render();
   } catch {
