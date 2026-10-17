@@ -3,11 +3,11 @@
 These trail recaps are based on notes supplied for The Great Undoing.
 
 ## 1. Homeward Bound
-Main character: Gifford
+Main character: Giffard
 Other characters: Furbish, Halloway, RoboDJ, Datchery, Spectre, Pocket
 Themes: Bucket list, Escape, The Great Undoing
 
-Gifford is about to lose their job for sheltering Furbish and asks you to help finish a bucket list. You beat a game score, get Gifford’s song on RoboDJ and try to impress Datchery with a poem. The final wish is to free Furbish. Spectre has made a truce with the raccoons and helps you plan an escape through the old pipes. You forge a passport and distract Pocket with Gifford’s mixtape. Furbish agrees to flee only because they want to protect Gifford. The lawyer is safe, but the rest of the town still faces the Undoing.
+Giffard is about to lose their job for sheltering Furbish and asks you to help finish a bucket list. You beat a game score, get Giffard’s song on RoboDJ and try to impress Datchery with a poem. The final wish is to free Furbish. Spectre has made a truce with the raccoons and helps you plan an escape through the old pipes. You forge a passport and distract Pocket with Giffard’s mixtape. Furbish agrees to flee only because he wants to protect Giffard. The lawyer is safe, but the rest of the town still faces the Undoing.
 
 ## 2. Back To The Furbish
 Main character: Furbish
@@ -18,10 +18,10 @@ At a gloating session after Pocket captures Furbish, the former mayor warns that
 
 ## 3. Access Denied
 Main character: Dr Winter
-Other characters: Terrence, Perigate, Littlefield, Jonas
+Other characters: Terence, Perigate, Littlefield, Jonas
 Themes: Bunkers, Access cards, The Great Undoing
 
-Dr Winter’s bunker keycard has stopped working. Terrence directs you to Perigate for a replacement, but the new cards have the wrong markings and errors. A search for Project Endless Summer reveals that Winter and Littlefield have been barred from the bunker programme because Jonas considers Winter too powerful to survive the Undoing. Winter changes the access card so Littlefield can enter Jonas’s private bunker instead. You deliver it to Littlefield, giving them a chance to ride out the disaster alongside Jonas.
+Dr Winter’s bunker keycard has stopped working. Terence directs you to Perigate for a replacement, but the new cards have the wrong markings and errors. A search for Project Endless Summer reveals that Winter and Littlefield have been barred from the bunker programme because Jonas considers Winter too powerful to survive the Undoing. Winter changes the access card so Littlefield can enter Jonas’s private bunker instead. You deliver it to Littlefield, giving them a chance to ride out the disaster alongside Jonas.
 
 ## 4. My Dinner With Jonas
 Main character: Cogwright

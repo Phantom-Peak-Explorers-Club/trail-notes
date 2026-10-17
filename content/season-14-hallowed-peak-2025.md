@@ -7,28 +7,28 @@ Main character: Halloway
 Other characters: King Temu IV, King Temu V, Pius, Sparks, Mr Feast
 Themes: Mummies, Mystery, Games
 
-Halloway recruits graveyard guards to find King Temu, a mummy loose during the Lunar Festival. A tablet, a paracryptic clue and a Videomatic vlog reveal that the fugitive is not the feared warlord King Temu V but his teenage nephew, King Temu IV. Murdered before he could enjoy childhood, the younger king wants to party and get a Game Station Mini. Pius has his fake ID, while Sparks has won the last console from Mr Feast. You trade the ID for the console and take it to Halloway, who can lure Temu back to his resting place.
+Halloway recruits graveyard guards to find King Temu, a mummy loose during the Lunar Festival. A tablet, a paracryptic clue and a Videomatic vlog reveal that the fugitive is not the feared warlord King Temu V but the warlord’s teenage nephew, King Temu IV. Murdered before experiencing childhood, the younger king wants to party and get a Game Station Mini. Pius has Temu’s fake ID, while Sparks has won the last console from Mr Feast. You trade the ID for the console and take it to Halloway, who can lure Temu back to their resting place.
 
 ## 2. A Murder Most Fowl
 Main character: Sherlock Bones
 Other characters: Lovehart, Meowiarty, Dogtor Watson, Bonzo the Clown, Hogwood, Stickler, Edgar Allan Crow
 Themes: Murder mystery, Writing, Reality
 
-Sherlock Bones is accused of murder, but Lovehart believes Meowiarty framed them. The investigation leads through Meowiarty’s hideout, Hogwood’s improv class and a strange fan-fiction contest whose story seems to predict your actions. Stickler supplies the banned Quill of Truth, a JONACO prototype that makes written events real. Its user is Edgar Allan Crow, the unseen narrator whose prose has killed Dogtor Watson and drawn Meowiarty into another murder. You confront Crow at the Undertakers and persuade him to surrender the Quill, allowing Sherlock Bones to write a happier ending.
+Sherlock Bones is accused of murder, but Lovehart believes Meowiarty framed him. The investigation leads through Meowiarty’s hideout, Hogwood’s improv class and a strange fan-fiction contest whose story seems to predict your actions. Stickler supplies the banned Quill of Truth, a JONACO prototype that makes written events real. Its user is Edgar Allan Crow, the unseen narrator whose prose has killed Dogtor Watson and drawn Meowiarty into another murder. You confront Crow at the Undertakers and persuade Crow to surrender the Quill, allowing Sherlock Bones to write a happier ending.
 
 ## 3. The Great Blimp Robbery
 Main character: Copper
-Other characters: Terrence, Perigate, Pius, Jonas
+Other characters: Terence, Perigate, Pius, Jonas
 Themes: Heist, Disguises, Romance
 
-JONACO is hunting the blimp thieves Blimpy and McScrimbles. Copper admits they are Blimpy and recruits you to steal the Jonas family jewels. You secure Sky Flex Supreme blueprints from Perigate, but McScrimbles is caught with the jewel and taken to a containment cell. The supposed bandit turns out to be Terrence. Following the prison plumbing leads you to Pius, who has recovered the jewel. Terrence asks you to use it as a ring and propose to Copper on their behalf. Copper says yes.
+JONACO is hunting the blimp thieves Blimpy and McScrimbles. Copper admits they are Blimpy and recruits you to steal the Jonas family jewels. You secure Sky Flex Supreme blueprints from Perigate, but McScrimbles is caught with the jewel and taken to a containment cell. The supposed bandit turns out to be Terence. Following the prison plumbing leads you to Pius, who has recovered the jewel. Terence asks you to use it as a ring and propose to Copper on his behalf. Copper says yes.
 
 ## 4. Call of the Deep
 Main character: Spectre
 Other characters: Vox, Sir Franklin Figment, Mr Feast, Pocket, KLACKY
 Themes: Black goo, Portals, Rescue
 
-Spectre asks you to investigate black goo and find Vox, who vanished after sending a painting and a sample from Sir Franklin Figment’s collection. Clues in the Hall of Art and Diamines lead to Vox’s video message: a liquid Figment has trapped her and others inside JONACO’s hidden Hall of Fun. Mr Feast’s ride video points you toward the entrance. After submitting a ride idea to Pocket, you gain access through KLACKY and use a Jonabot at the Gamehouse to open a portal. Spectre then pulls the cube back through the painting to stop the Hall of Fun invading town.
+Spectre asks you to investigate black goo and find Vox, who vanished after sending a painting and a sample from Sir Franklin Figment’s collection. Clues in the Hall of Art and Diamines lead to Vox’s video message: a liquid Figment has trapped Vox and others inside JONACO’s hidden Hall of Fun. Mr Feast’s ride video points you toward the entrance. After submitting a ride idea to Pocket, you gain access through KLACKY and use a Jonabot at the Gamehouse to open a portal. Spectre then pulls the cube back through the painting to stop the Hall of Fun invading town.
 
 ## 5. Domestic Sin
 Main character: Stickler
@@ -42,14 +42,14 @@ Main character: Perigate
 Other characters: Copper, Dracula, Frankenstein, Fishman
 Themes: Monsters, Stag night, Karaoke
 
-Perigate wants to get ready for a blind date, but vandalised coffins and a dead Saloon worker demand attention. Copper recalls rowdy patrons who won a caravan, and the trail reveals a group of classic monsters celebrating Frankenstein’s stag night. A secret karaoke bar, KLACKY footage and a Jonagraph call help you trace the missing groom to prison. Frankie asks you to contact his bride so she can bail him out. You return to Perigate with the information needed to close the complaint, although they decide against their date with the Fishman.
+Perigate wants to get ready for a blind date, but vandalised coffins and a dead Saloon worker demand attention. Copper recalls rowdy patrons who won a caravan, and the trail reveals a group of classic monsters celebrating Frankenstein’s stag night. A secret karaoke bar, KLACKY footage and a Jonagraph call help you trace the missing groom to prison. Frankie asks you to contact their bride to arrange bail. You return to Perigate with the information needed to close the complaint, although they decide against their date with the Fishman.
 
 ## 7. A Knight’s Honour
 Main character: Platman
 Other characters: Rexford, Sir Merrylegs, Sparks, Pius
 Themes: Knights, Oaths, Cryptocurrency
 
-Sir Merrylegs keeps threatening Platman, so you infiltrate his circle by completing three tasks for Sparks. Merrylegs sends you to investigate Pius, giving you time to find a weakness: his troubled marriage and another cryptocurrency investment. You move his cash into crypto and discover he stole Killjoy the Songblade. His interrogation reveals the oath of XI, and a paracryptic clue establishes that he cannot attack another knight. You obtain the Knights’ Oath and persuade Rexford to have Platman swear it, keeping him safe from Merrylegs for now.
+Sir Merrylegs keeps threatening Platman, so you infiltrate Merrylegs’s circle by completing three tasks for Sparks. Merrylegs sends you to investigate Pius, giving you time to find a weakness: a troubled marriage and another cryptocurrency investment. You move Merrylegs’s cash into crypto and discover the theft of Killjoy the Songblade. An interrogation reveals the oath of XI, and a paracryptic clue establishes that Merrylegs cannot attack another knight. You obtain the Knights’ Oath and persuade Rexford to have Platman swear it, keeping Platman safe from Merrylegs for now.
 
 ## 8. The Axiomatic Zone
 Main character: Hogwood
@@ -60,10 +60,10 @@ Hogwood’s partner Beardy Hamm misses their anniversary date, and an old televi
 
 ## 9. A Fault in Our Star
 Main character: Dr Winter
-Other characters: Marketing Bot, Gifford, Lovehart, Rexford, KLACKY
+Other characters: Marketing Bot, Giffard, Lovehart, Rexford, KLACKY
 Themes: Artificial intelligence, Romance, Orbital laser
 
-Dr Winter wants Marketing Bot destroyed for being too affectionate. You qualify as an orbital-strike engineer through Gifford and fire at the Summerhouse, but the laser itself has fallen for Winter. It arranges a fantasy date on Mount Absmore. KLACKY suggests overloading its love circuits by making Marketing Bot jealous. Rexford supplies the hottest technology in town, a toaster, and you persuade Winter to whisper sweet nothings to it. The laser’s circuits overload and the town is saved.
+Dr Winter wants Marketing Bot destroyed for being too affectionate. You qualify as an orbital-strike engineer through Giffard and fire at the Summerhouse, but the laser itself has fallen for Winter. It arranges a fantasy date on Mount Absmore. KLACKY suggests overloading its love circuits by making Marketing Bot jealous. Rexford supplies the hottest technology in town, a toaster, and you persuade Winter to whisper sweet nothings to it. The laser’s circuits overload and the town is saved.
 
 ## 10. Ghost with the Most
 Main character: Pocket
@@ -74,10 +74,10 @@ Pocket’s celebration is interrupted when RoboDJ develops a tune that never dro
 
 ## 11. Flight of the Furbish
 Main character: Furbish
-Other characters: Gifford, Pius, Littlefield, Datchery, Mr Feast
+Other characters: Giffard, Pius, Littlefield, Datchery, Mr Feast
 Themes: Escape, Blimps, Space
 
-The JIA sends you to find Furbish, while Gifford asks you to erase a compromising tape of their father. You delete the digital recording through KLACKY, but Pius still has a physical copy. The JIA already knows Furbish is a puppet and back in town, so you must get them away. A blimp ticket is refused and a submarine proves no better. Mr Feast’s space dating show offers the safest route: a rocket to the moon. You bring its application to Gifford so Furbish can escape.
+The JIA sends you to find Furbish, while Giffard asks you to erase a compromising tape of their father. You delete the digital recording through KLACKY, but Pius still has a physical copy. The JIA already knows Furbish is a puppet and back in town, so you must get him away. A blimp ticket is refused and a submarine proves no better. Mr Feast’s space dating show offers the safest route: a rocket to the moon. You bring its application to Giffard so Furbish can escape.
 
 ## 12. The Coin Lands Sideways · Secret trail
 Main character: Littlefield
