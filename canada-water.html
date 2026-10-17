@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5efe3">
-  <meta name="description" content="Browse Phantom Peak Canada Water trail write-ups by year and season.">
+  <meta name="description" content="Search 186 Phantom Peak Canada Water trails by title, season, characters and theme. Read the recaps and download the season PDFs.">
   <title>Canada Water Trails · Phantom Peak Trail Archive</title>
   <link rel="icon" href="assets/phantom-peak-logo.png">
   <link rel="stylesheet" href="styles.css">
@@ -25,39 +25,29 @@
       <div class="archive-intro-copy">
         <p class="eyebrow">LOCATION 01 / CANADA WATER</p>
         <h1>The Canada<br><em>Water years.</em></h1>
-        <p>Four years of stories, collected season by season. Choose a write-up to read the original PDF in your browser.</p>
-        <div class="archive-stats"><span><strong>2022–2025</strong> Seasons covered</span><span><strong>14</strong> Write-ups available</span></div>
+        <p>Stories from 2022 to 2026, collected trail by trail. Search the recaps, explore the characters, and download each season write-up.</p>
+        <div class="archive-stats"><span><strong>2022–2026</strong> Years covered</span><span><strong>186</strong> Trails indexed</span><span><strong>17</strong> Season PDFs</span></div>
       </div>
       <div class="archive-intro-art" aria-hidden="true"><span class="art-rays">✳</span><img src="assets/phantom-peak-logo.png" alt=""></div>
     </section>
 
     <section class="library wrap" aria-labelledby="library-heading">
       <div class="library-heading">
-        <div><p class="eyebrow">THE COLLECTION</p><h2 id="library-heading">Browse the seasons</h2></div>
-        <label class="search-label" for="search">Search write-ups <input id="search" type="search" placeholder="Search by season or title…" autocomplete="off"></label>
+        <div><p class="eyebrow">THE COLLECTION</p><h2 id="library-heading">Find a trail</h2></div>
+        <label class="search-label" for="search">Search everything <input id="search" type="search" placeholder="Trail, character, theme…" autocomplete="off"></label>
       </div>
-      <div class="year-filters" role="group" aria-label="Filter by year">
-        <button type="button" class="year-filter active" data-year="all" aria-pressed="true">All years</button>
-        <button type="button" class="year-filter" data-year="2022" aria-pressed="false">2022</button>
-        <button type="button" class="year-filter" data-year="2023" aria-pressed="false">2023</button>
-        <button type="button" class="year-filter" data-year="2024" aria-pressed="false">2024</button>
-        <button type="button" class="year-filter" data-year="2025" aria-pressed="false">2025</button>
+      <div class="filter-grid">
+        <label>Year <select id="year-filter"><option value="">All years</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></label>
+        <label>Season <select id="season-filter"><option value="">All seasons</option><option>Launch</option><option>Spring</option><option>Summer</option><option>Autumn</option><option>Winter</option><option>Special</option><option>Finale</option></select></label>
+        <label>Main character <select id="main-filter"><option value="">Any character</option></select></label>
+        <label>Other character <select id="other-filter"><option value="">Any character</option></select></label>
+        <label>Theme <select id="theme-filter"><option value="">Any theme</option></select></label>
       </div>
-      <p class="results-count" id="results-count" role="status"></p>
-      <div class="season-grid" id="season-grid"></div>
-      <p class="no-results" id="no-results" hidden>No write-ups match that search. Try another season or year.</p>
+      <div class="results-row"><p class="results-count" id="results-count" role="status"></p><button class="clear-filters" id="clear-filters" type="button">Clear filters</button></div>
+      <div id="season-list"></div>
+      <p class="no-results" id="no-results" hidden>No trails match those filters. Try another name, character, theme or season.</p>
     </section>
   </main>
-
-  <dialog class="reader" id="reader" aria-labelledby="reader-title">
-    <div class="reader-header">
-      <div><p class="eyebrow">ORIGINAL WRITE-UP</p><h2 id="reader-title"></h2></div>
-      <button type="button" class="reader-close" id="reader-close" aria-label="Close PDF reader">×</button>
-    </div>
-    <div class="reader-actions"><a id="reader-open" target="_blank" rel="noopener">Open PDF in a new tab ↗</a><a id="reader-download" download>Download PDF ↓</a></div>
-    <iframe id="reader-frame" title="PDF write-up" loading="lazy"></iframe>
-    <p class="reader-fallback">If the PDF does not appear above, use “Open PDF in a new tab”.</p>
-  </dialog>
 
   <footer class="site-footer wrap"><span>PHANTOM PEAK TRAIL ARCHIVE</span><a href="index.html">All locations ↑</a></footer>
 </body>

@@ -5,10 +5,13 @@ A public archive of Phantom Peak Canada Water trail write-ups, organised by year
 ## Contents
 
 - `index.html`: location landing page
-- `canada-water.html`: searchable Canada Water collection and PDF reader
-- `canada-water.js`: write-up catalogue and browsing behaviour
-- `pdfs/`: original season write-ups from 2022 through Summer 2025
+- `canada-water.html`: searchable Canada Water collection and season PDF downloads
+- `canada-water.js`: season catalogue, filters and browsing behaviour
+- `trails.json`: searchable individual trail index
+- `pdfs/`: season write-ups from 2022 through The Great Undoing (2026)
+- `content/`: new write-ups drafted from supplied notes for Seasons 14–16
+- `scripts/build_new_seasons.py`: regenerates the three new PDFs and their trail entries
 
-Autumn and Winter 2025 are marked as in progress. Their write-ups will be added when the season notes are supplied.
+The 2025 Hallowed Peak and Wintermas write-ups and the 2026 Great Undoing write-up were drafted from notes supplied for the archive. Earlier season PDFs are the supplied source files.
 
 The site is static and runs on GitHub Pages. Open `index.html` to browse locally.

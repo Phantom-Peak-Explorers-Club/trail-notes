@@ -1,110 +1,195 @@
-const writeups = [
-  { year: 2022, season: 'Launch', title: 'Season 0', file: 'Season 0 Write Up.pdf', kind: 'special', symbol: '✦' },
-  { year: 2022, season: 'Autumn', title: 'Hallowed Peak', file: 'Hallowed Peak 22 Write Up.pdf', kind: 'autumn', symbol: '☾' },
-  { year: 2022, season: 'Winter', title: 'Wintermas', file: 'Wintermas Phantom Peak 22 Write Up.pdf', kind: 'winter', symbol: '✳' },
-  { year: 2023, season: 'Spring', title: 'Platypus Parade', file: 'Platypus Parade Write Up.pdf', kind: 'spring', symbol: '✿' },
-  { year: 2023, season: 'Summer', title: "Summer's Peak", file: "Summer's Peak Write Up.pdf", kind: 'summer', symbol: '☼' },
-  { year: 2023, season: 'Autumn', title: 'Hallowed Peak', file: '2023 Hallowed Peak Write Up.pdf', kind: 'autumn', symbol: '☾' },
-  { year: 2023, season: 'Winter', title: 'Christmas at the Peak', file: '2023 Christmas At The Peak Write Up.pdf', kind: 'winter', symbol: '✳' },
-  { year: 2023, season: 'Special events', title: 'Special Event Trails', file: '2023 Special Event Trail Write Ups.pdf', kind: 'special', symbol: '✦' },
-  { year: 2024, season: 'Spring', title: 'Festival of Innovation', file: '2024 Spring At The Peak Write Up.pdf', kind: 'spring', symbol: '✿' },
-  { year: 2024, season: 'Summer', title: 'Summer at the Peak', file: '2024 Summer At The Peak Write Up.pdf', kind: 'summer', symbol: '☼' },
-  { year: 2024, season: 'Autumn', title: 'Hallowed Peak', file: '2024 Hallowed Peak Write Up.pdf', kind: 'autumn', symbol: '☾' },
-  { year: 2024, season: 'Winter', title: 'Wintermas', file: '2024 Wintermas Write Up.pdf', kind: 'winter', symbol: '✳' },
-  { year: 2025, season: 'Spring', title: 'JONACON', file: '2025 Spring - Jonacon Write Up.pdf', kind: 'spring', symbol: '✿' },
-  { year: 2025, season: 'Summer', title: 'Burning Blimp', file: '2025 Summer - Burning Blimp Write Up.pdf', kind: 'summer', symbol: '☼' },
-  { year: 2025, season: 'Autumn', title: 'Autumn 2025', kind: 'autumn', symbol: '☾', pending: true },
-  { year: 2025, season: 'Winter', title: 'Winter 2025', kind: 'winter', symbol: '✳', pending: true }
+const seasons = [
+  { id: '2022-launch', year: 2022, season: 'Launch', title: 'Pilot Season', pdf: 'pdfs/2022/Season 0 Write Up.pdf' },
+  { id: '2022-autumn', year: 2022, season: 'Autumn', title: 'Hallowed Peak', pdf: 'pdfs/2022/Hallowed Peak 22 Write Up.pdf' },
+  { id: '2022-winter', year: 2022, season: 'Winter', title: 'Wintermas', pdf: 'pdfs/2022/Wintermas Phantom Peak 22 Write Up.pdf' },
+  { id: '2023-spring', year: 2023, season: 'Spring', title: 'Platypus Parade', pdf: 'pdfs/2023/Platypus Parade Write Up.pdf' },
+  { id: '2023-summer', year: 2023, season: 'Summer', title: "Summer's Peak", pdf: "pdfs/2023/Summer's Peak Write Up.pdf" },
+  { id: '2023-autumn', year: 2023, season: 'Autumn', title: 'Hallowed Peak', pdf: 'pdfs/2023/2023 Hallowed Peak Write Up.pdf' },
+  { id: '2023-winter', year: 2023, season: 'Winter', title: 'Christmas at the Peak', pdf: 'pdfs/2023/2023 Christmas At The Peak Write Up.pdf' },
+  { id: '2023-special', year: 2023, season: 'Special', title: 'Special Event Trails', pdf: 'pdfs/2023/2023 Special Event Trail Write Ups.pdf' },
+  { id: '2024-spring', year: 2024, season: 'Spring', title: 'Festival of Innovation', pdf: 'pdfs/2024/2024 Spring At The Peak Write Up.pdf' },
+  { id: '2024-summer', year: 2024, season: 'Summer', title: 'Starlit Summer', pdf: 'pdfs/2024/2024 Summer At The Peak Write Up.pdf' },
+  { id: '2024-autumn', year: 2024, season: 'Autumn', title: 'Hallowed Peak', pdf: 'pdfs/2024/2024 Hallowed Peak Write Up.pdf' },
+  { id: '2024-winter', year: 2024, season: 'Winter', title: 'Wintermas', pdf: 'pdfs/2024/2024 Wintermas Write Up.pdf' },
+  { id: '2025-spring', year: 2025, season: 'Spring', title: 'JONACON', pdf: 'pdfs/2025/2025 Spring - Jonacon Write Up.pdf' },
+  { id: '2025-summer', year: 2025, season: 'Summer', title: 'Burning Blimp', pdf: 'pdfs/2025/2025 Summer - Burning Blimp Write Up.pdf' },
+  { id: '2025-autumn', year: 2025, season: 'Autumn', title: 'Hallowed Peak', pdf: 'pdfs/2025/Hallowed Peak 2025 Write Up.pdf', number: 14 },
+  { id: '2025-winter', year: 2025, season: 'Winter', title: 'Wintermas', pdf: 'pdfs/2025/Wintermas 2025 Write Up.pdf', number: 15 },
+  { id: '2026-finale', year: 2026, season: 'Finale', title: 'The Great Undoing', pdf: 'pdfs/2026/The Great Undoing Write Up.pdf', number: 16 }
 ];
 
-const grid = document.querySelector('#season-grid');
+const list = document.querySelector('#season-list');
 const search = document.querySelector('#search');
+const filters = {
+  year: document.querySelector('#year-filter'),
+  season: document.querySelector('#season-filter'),
+  main: document.querySelector('#main-filter'),
+  other: document.querySelector('#other-filter'),
+  theme: document.querySelector('#theme-filter')
+};
 const count = document.querySelector('#results-count');
 const noResults = document.querySelector('#no-results');
-const filters = [...document.querySelectorAll('.year-filter')];
-const dialog = document.querySelector('#reader');
-const frame = document.querySelector('#reader-frame');
-const readerTitle = document.querySelector('#reader-title');
-const readerOpen = document.querySelector('#reader-open');
-const readerDownload = document.querySelector('#reader-download');
-let selectedYear = 'all';
+let trails = [];
 
-function pdfUrl(item) {
-  return `pdfs/${item.year}/${encodeURIComponent(item.file)}`;
+function addOptions(select, values) {
+  [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b)).forEach(value => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    select.append(option);
+  });
 }
 
-function openReader(item) {
-  const url = pdfUrl(item);
-  readerTitle.textContent = `${item.title} · ${item.year}`;
-  readerOpen.href = url;
-  readerDownload.href = url;
-  frame.src = `${url}#view=FitH`;
-  frame.title = `${item.title} ${item.year} PDF`;
-  dialog.showModal();
-  document.querySelector('#reader-close').focus();
+function pdfLink(pdf) {
+  return new URL(pdf, document.baseURI).href;
 }
 
-function renderCard(item) {
+function trailCard(trail) {
   const card = document.createElement('article');
-  card.className = `season-card ${item.kind}${item.pending ? ' pending' : ''}`;
-  const top = document.createElement('div');
-  top.className = 'season-top';
-  const tag = document.createElement('span');
-  tag.className = 'season-tag';
-  tag.textContent = `${item.season} / ${item.year}`;
-  const symbol = document.createElement('span');
-  symbol.className = 'season-symbol';
-  symbol.setAttribute('aria-hidden', 'true');
-  symbol.textContent = item.symbol;
-  top.append(tag, symbol);
-  const middle = document.createElement('div');
-  const title = document.createElement('h3');
-  title.textContent = item.title;
-  const description = document.createElement('p');
-  description.textContent = item.pending ? 'Write-up to be added from the season notes.' : 'Original trail write-up · PDF';
-  middle.append(title, description);
-  card.append(top, middle);
-  if (item.pending) {
-    const pending = document.createElement('span');
-    pending.className = 'pending-label';
-    pending.textContent = 'WRITE-UP IN PROGRESS';
-    card.append(pending);
+  card.className = 'trail-card';
+  const imageBox = document.createElement('div');
+  imageBox.className = 'trail-image';
+  if (trail.image) {
+    const image = document.createElement('img');
+    image.src = trail.image;
+    image.alt = `Artwork for ${trail.title}`;
+    image.loading = 'lazy';
+    imageBox.append(image);
   } else {
-    const action = document.createElement('button');
-    action.type = 'button';
-    action.className = 'season-action';
-    action.textContent = 'Read write-up ↗';
-    action.setAttribute('aria-label', `Read ${item.title}, ${item.year} PDF`);
-    action.addEventListener('click', () => openReader(item));
-    card.append(action);
+    imageBox.classList.add('empty');
+    imageBox.innerHTML = '<span aria-hidden="true">✦</span><small>TRAIL IMAGE TO FOLLOW</small>';
   }
+
+  const body = document.createElement('div');
+  body.className = 'trail-card-body';
+  const number = document.createElement('p');
+  number.className = 'trail-number';
+  number.textContent = `TRAIL ${String(trail.number).padStart(2, '0')}${trail.secret ? ' · SECRET TRAIL' : ''}`;
+  const title = document.createElement('h4');
+  title.textContent = trail.title;
+  const summary = document.createElement('p');
+  summary.className = 'trail-summary';
+  summary.textContent = trail.summary;
+  body.append(number, title, summary);
+
+  const meta = document.createElement('dl');
+  meta.className = 'trail-meta';
+  const rows = [
+    ['Main character', trail.mainCharacter || 'To be confirmed'],
+    ['Other characters', trail.otherCharacters.length ? trail.otherCharacters.slice(0, 5).join(', ') + (trail.otherCharacters.length > 5 ? ` +${trail.otherCharacters.length - 5}` : '') : '—'],
+    ['Themes', trail.themes.length ? trail.themes.join(', ') : '—']
+  ];
+  rows.forEach(([label, value]) => {
+    const dt = document.createElement('dt');
+    dt.textContent = label;
+    const dd = document.createElement('dd');
+    dd.textContent = value;
+    meta.append(dt, dd);
+  });
+  body.append(meta);
+
+  const details = document.createElement('details');
+  details.className = 'trail-details';
+  const toggle = document.createElement('summary');
+  toggle.textContent = 'Read trail recap';
+  const full = document.createElement('p');
+  full.textContent = trail.searchText;
+  details.append(toggle, full);
+  body.append(details);
+  card.append(imageBox, body);
   return card;
 }
 
-function render() {
-  const query = search.value.trim().toLocaleLowerCase();
-  const items = writeups.filter(item => {
-    const yearMatches = selectedYear === 'all' || String(item.year) === selectedYear;
-    const queryMatches = `${item.title} ${item.season} ${item.year}`.toLocaleLowerCase().includes(query);
-    return yearMatches && queryMatches;
-  });
-  grid.replaceChildren(...items.map(renderCard));
-  const available = items.filter(item => !item.pending).length;
-  count.textContent = `${available} write-up${available === 1 ? '' : 's'} available${items.some(item => item.pending) ? ` · ${items.length - available} in progress` : ''}`;
-  noResults.hidden = items.length !== 0;
+function seasonSection(season, matches, filtered) {
+  const section = document.createElement('section');
+  section.className = `season-section ${season.season.toLowerCase()}`;
+  section.id = season.id;
+  const header = document.createElement('div');
+  header.className = 'season-section-header';
+  const identity = document.createElement('div');
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'eyebrow';
+  eyebrow.textContent = `${season.number ? `SEASON ${season.number} · ` : ''}${season.season.toUpperCase()} / ${season.year}`;
+  const title = document.createElement('h3');
+  title.textContent = season.title;
+  const total = document.createElement('p');
+  total.className = 'season-total';
+  total.textContent = season.pending ? 'Write-up in progress' : `${matches.length} trail${matches.length === 1 ? '' : 's'}${filtered ? ' found' : ''}`;
+  identity.append(eyebrow, title, total);
+  header.append(identity);
+  if (season.pdf) {
+    const actions = document.createElement('div');
+    actions.className = 'season-pdf-actions';
+    const open = document.createElement('a');
+    open.href = pdfLink(season.pdf);
+    open.target = '_blank';
+    open.rel = 'noopener';
+    open.textContent = 'Open season PDF ↗';
+    const download = document.createElement('a');
+    download.href = pdfLink(season.pdf);
+    download.download = `${season.title} ${season.year}.pdf`;
+    download.textContent = 'Download season PDF ↓';
+    actions.append(open, download);
+    header.append(actions);
+  }
+  section.append(header);
+  if (season.pending) {
+    const note = document.createElement('p');
+    note.className = 'pending-season';
+    note.textContent = 'The trail notes for this season will be added here when its write-up is ready.';
+    section.append(note);
+  } else {
+    const cards = document.createElement('div');
+    cards.className = 'trail-grid';
+    cards.append(...matches.map(trailCard));
+    section.append(cards);
+  }
+  return section;
 }
 
-filters.forEach(filter => filter.addEventListener('click', () => {
-  selectedYear = filter.dataset.year;
-  filters.forEach(button => {
-    const active = button === filter;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-  render();
-}));
-search.addEventListener('input', render);
-document.querySelector('#reader-close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
-dialog.addEventListener('close', () => { frame.removeAttribute('src'); });
-render();
+function matchesFilters(trail) {
+  const query = search.value.trim().toLocaleLowerCase();
+  const text = [trail.title, trail.seasonTitle, trail.season, trail.year, trail.mainCharacter, ...trail.otherCharacters, ...trail.themes, trail.searchText].join(' ').toLocaleLowerCase();
+  return (!query || text.includes(query))
+    && (!filters.year.value || String(trail.year) === filters.year.value)
+    && (!filters.season.value || trail.season === filters.season.value)
+    && (!filters.main.value || trail.mainCharacter === filters.main.value)
+    && (!filters.other.value || trail.otherCharacters.includes(filters.other.value))
+    && (!filters.theme.value || trail.themes.includes(filters.theme.value));
+}
+
+function render() {
+  const matches = trails.filter(matchesFilters);
+  const filtered = Boolean(search.value.trim() || Object.values(filters).some(select => select.value));
+  const sections = seasons.filter(season => {
+    if (season.pending) return !filtered;
+    return matches.some(trail => trail.id.startsWith(`${season.id}-`));
+  }).map(season => seasonSection(season, matches.filter(trail => trail.id.startsWith(`${season.id}-`)), filtered));
+  list.replaceChildren(...sections);
+  count.textContent = `${matches.length} trail${matches.length === 1 ? '' : 's'} ${filtered ? 'found' : 'indexed'} across ${sections.filter(section => !section.querySelector('.pending-season')).length} season write-ups`;
+  noResults.hidden = matches.length !== 0;
+}
+
+async function initialise() {
+  try {
+    const response = await fetch('trails.json');
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    trails = await response.json();
+    addOptions(filters.main, trails.map(trail => trail.mainCharacter));
+    addOptions(filters.other, trails.flatMap(trail => trail.otherCharacters));
+    addOptions(filters.theme, trails.flatMap(trail => trail.themes));
+    search.addEventListener('input', render);
+    Object.values(filters).forEach(select => select.addEventListener('change', render));
+    document.querySelector('#clear-filters').addEventListener('click', () => {
+      search.value = '';
+      Object.values(filters).forEach(select => { select.value = ''; });
+      render();
+      search.focus();
+    });
+    render();
+  } catch {
+    count.textContent = 'The trail index could not load. Please refresh the page.';
+  }
+}
+
+initialise();
