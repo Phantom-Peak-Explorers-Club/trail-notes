@@ -204,7 +204,9 @@ function renderSeasons() {
     divider.textContent = anyOpen ? 'TRAIL REGISTERS' : '';
     divider.classList.toggle('year-list-divider-empty', !anyOpen);
     allCard.setAttribute('aria-expanded', String(allOpen));
-    allCard.querySelector('.year-card-action').textContent = allOpen ? 'Close every register ↑' : 'Open every register ↓';
+    allCard.dataset.state = allOpen ? 'open' : anyOpen ? 'partial' : 'closed';
+    allCard.querySelector('.year-card-status').textContent = allOpen ? 'ALL OPEN' : anyOpen ? 'SOME OPEN' : 'ALL CLOSED';
+    allCard.querySelector('.year-card-action').textContent = allOpen ? 'Close all registers ↑' : 'Open all registers ↓';
   }
   function setYearOpen(entry, opening, scroll = false) {
     const { card, panel, year } = entry;
@@ -214,6 +216,8 @@ function renderSeasons() {
     }
     panel.hidden = !opening;
     card.setAttribute('aria-expanded', String(opening));
+    card.dataset.state = opening ? 'open' : 'closed';
+    card.querySelector('.year-card-status').textContent = opening ? 'OPEN' : 'CLOSED';
     card.querySelector('.year-card-action').textContent = opening ? 'Close trail register ↑' : 'Open trail register ↓';
     updateAllCard();
     if (opening && scroll) requestAnimationFrame(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }));
@@ -223,6 +227,7 @@ function renderSeasons() {
     const yearTrails = yearSeasons.reduce((total, season) => total + seasonTrails(season).length, 0);
     const card = element('button', 'year-card');
     card.type = 'button';
+    card.dataset.state = 'closed';
     card.setAttribute('aria-expanded', 'false');
     card.setAttribute('aria-controls', `year-panel-${year}`);
     const image = document.createElement('img');
@@ -233,6 +238,7 @@ function renderSeasons() {
     card.append(
       image,
       element('span', 'year-card-label', 'CANADA WATER / ARCHIVE'),
+      element('span', 'year-card-status', 'CLOSED'),
       element('span', 'year-card-year', String(year)),
       element('span', 'year-card-count', `${yearSeasons.length} season${yearSeasons.length === 1 ? '' : 's'} · ${yearTrails} trails`),
       element('span', 'year-card-action', 'Open trail register ↓')
@@ -248,14 +254,16 @@ function renderSeasons() {
   }
   allCard = element('button', 'year-card year-card-all');
   allCard.type = 'button';
+  allCard.dataset.state = 'closed';
   allCard.setAttribute('aria-expanded', 'false');
   allCard.setAttribute('aria-controls', years.map(year => `year-panel-${year}`).join(' '));
   allCard.append(
     Object.assign(document.createElement('img'), { className: 'year-card-image', src: 'assets/phantom-peak-interior.jpg', alt: '', loading: 'lazy' }),
     element('span', 'year-card-label', 'CANADA WATER / COMPLETE INDEX'),
+    element('span', 'year-card-status', 'ALL CLOSED'),
     element('span', 'year-card-year', 'ALL YEARS'),
     element('span', 'year-card-count', `${years.length} years · ${trails.length} trails`),
-    element('span', 'year-card-action', 'Open every register ↓')
+    element('span', 'year-card-action', 'Open all registers ↓')
   );
   allCard.addEventListener('click', () => {
     const opening = yearEntries.some(entry => entry.panel.hidden);
