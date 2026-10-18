@@ -28,7 +28,28 @@ const filters = {
   other: document.querySelector('#other-filter'),
   theme: document.querySelector('#theme-filter')
 };
+const applyFilters = document.querySelector('#apply-filters');
+const filterStatus = document.querySelector('#filter-status');
+const appliedFilters = Object.fromEntries(Object.keys(filters).map(key => [key, '']));
 let trails = [];
+
+function selectedFilters() {
+  return Object.fromEntries(Object.entries(filters).map(([key, select]) => [key, select.value]));
+}
+
+function updateFilterAction() {
+  const pending = Object.entries(selectedFilters()).some(([key, value]) => value !== appliedFilters[key]);
+  applyFilters.disabled = !pending;
+  filterStatus.textContent = pending ? 'Selections changed. Apply filters to update results.' : '';
+}
+
+function clearFilters() {
+  Object.entries(filters).forEach(([key, select]) => {
+    select.value = '';
+    appliedFilters[key] = '';
+  });
+  updateFilterAction();
+}
 
 function element(tag, className, content) {
   const node = document.createElement(tag);
@@ -132,12 +153,89 @@ function heading(eyebrow, title, description) {
   return wrapper;
 }
 
+function fillYearPanel(panel, year) {
+  const header = element('div', 'year-panel-header');
+  header.append(element('h3', '', `${year} trail register`), element('p', '', 'Open any trail below to read its recap here.'));
+  panel.append(header);
+  const groups = element('div', 'year-panel-groups');
+  seasons.filter(season => season.year === year).forEach(season => {
+    const group = element('section', 'year-panel-season');
+    const seasonHeader = element('div', 'year-panel-season-header');
+    seasonHeader.append(element('h4', '', season.title), link('View season cards ↗', `#season/${season.id}`));
+    group.append(seasonHeader);
+    const list = element('ol', 'year-trail-list');
+    seasonTrails(season).forEach(trail => {
+      const item = element('li');
+      const detail = element('details', 'year-trail');
+      const summary = element('summary');
+      summary.append(
+        element('span', 'year-trail-number', String(trail.number).padStart(2, '0')),
+        element('span', 'year-trail-title', trail.title),
+        ...(trail.secret ? [element('span', 'year-trail-secret', 'Secret trail')] : [])
+      );
+      const copy = element('div', 'year-trail-copy');
+      copy.append(trailMeta(trail), element('p', '', trail.searchText), link('See trail card ↗', `#trail/${trail.id}`));
+      detail.append(summary, copy);
+      item.append(detail);
+      list.append(item);
+    });
+    group.append(list);
+    groups.append(group);
+  });
+  panel.append(groups);
+}
+
 function renderSeasons() {
   intro.hidden = false;
   document.title = 'Canada Water Trails · Phantom Peak Trail Archive';
-  view.replaceChildren(heading('THE COLLECTION', 'All seasons', 'Choose a season to see every trail in it.'));
-  for (const year of [...new Set(seasons.map(season => season.year))]) {
+  view.replaceChildren(heading('THE COLLECTION', 'All seasons', 'Open any years to read their trail lists here, or browse the season artwork below.'));
+  const years = [...new Set(seasons.map(season => season.year))];
+  const yearNav = element('nav', 'year-nav');
+  yearNav.setAttribute('aria-label', 'Browse trail registers by year');
+  yearNav.append(element('h3', 'year-nav-title', 'Open the trail registers by year'));
+  const yearGrid = element('div', 'year-grid');
+  const panels = element('div', 'year-panels');
+  for (const year of years) {
+    const yearSeasons = seasons.filter(season => season.year === year);
+    const yearTrails = yearSeasons.reduce((total, season) => total + seasonTrails(season).length, 0);
+    const card = element('button', 'year-card');
+    card.type = 'button';
+    card.setAttribute('aria-expanded', 'false');
+    card.setAttribute('aria-controls', `year-panel-${year}`);
+    const image = document.createElement('img');
+    image.className = 'year-card-image';
+    image.src = `assets/year-art/${year}.webp`;
+    image.alt = '';
+    image.loading = 'lazy';
+    card.append(
+      image,
+      element('span', 'year-card-label', 'CANADA WATER / ARCHIVE'),
+      element('span', 'year-card-year', String(year)),
+      element('span', 'year-card-count', `${yearSeasons.length} season${yearSeasons.length === 1 ? '' : 's'} · ${yearTrails} trails`),
+      element('span', 'year-card-action', 'Open trail register ↓')
+    );
+    const panel = element('section', 'year-panel');
+    panel.id = `year-panel-${year}`;
+    panel.hidden = true;
+    card.addEventListener('click', () => {
+      const opening = panel.hidden;
+      if (opening && !panel.dataset.loaded) {
+        fillYearPanel(panel, year);
+        panel.dataset.loaded = 'true';
+      }
+      panel.hidden = !opening;
+      card.setAttribute('aria-expanded', String(opening));
+      card.querySelector('.year-card-action').textContent = opening ? 'Close trail register ↑' : 'Open trail register ↓';
+      if (opening) requestAnimationFrame(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    });
+    yearGrid.append(card);
+    panels.append(panel);
+  }
+  yearNav.append(yearGrid);
+  view.append(yearNav, panels);
+  for (const year of years) {
     const group = element('section', 'season-year-group');
+    group.id = `year-${year}`;
     group.append(element('h3', 'season-year', String(year)));
     const list = element('div', 'season-index');
     seasons.filter(season => season.year === year).forEach(season => {
@@ -197,15 +295,15 @@ function matchesFilters(trail) {
   const query = search.value.trim().toLocaleLowerCase();
   const text = [trail.title, trail.seasonTitle, trail.season, trail.year, trail.mainCharacter, ...trail.otherCharacters, ...trail.themes, trail.searchText].join(' ').toLocaleLowerCase();
   return (!query || text.includes(query))
-    && (!filters.year.value || String(trail.year) === filters.year.value)
-    && (!filters.season.value || trail.season === filters.season.value)
-    && (!filters.main.value || trail.mainCharacter === filters.main.value)
-    && (!filters.other.value || trail.otherCharacters.includes(filters.other.value))
-    && (!filters.theme.value || trail.themes.includes(filters.theme.value));
+    && (!appliedFilters.year || String(trail.year) === appliedFilters.year)
+    && (!appliedFilters.season || trail.season === appliedFilters.season)
+    && (!appliedFilters.main || trail.mainCharacter === appliedFilters.main)
+    && (!appliedFilters.other || trail.otherCharacters.includes(appliedFilters.other))
+    && (!appliedFilters.theme || trail.themes.includes(appliedFilters.theme));
 }
 
 function hasSearch() {
-  return Boolean(search.value.trim() || Object.values(filters).some(select => select.value));
+  return Boolean(search.value.trim() || Object.values(appliedFilters).some(Boolean));
 }
 
 function renderSearch() {
@@ -218,7 +316,7 @@ function renderSearch() {
   clear.type = 'button';
   clear.addEventListener('click', () => {
     search.value = '';
-    Object.values(filters).forEach(select => { select.value = ''; });
+    clearFilters();
     location.hash = 'seasons';
     search.focus();
   });
@@ -242,7 +340,7 @@ function render() {
   const { kind, id } = route();
   if (kind !== 'search') {
     search.value = '';
-    Object.values(filters).forEach(select => { select.value = ''; });
+    clearFilters();
   }
   if (kind === 'season') {
     const season = seasons.find(item => item.id === id);
@@ -254,6 +352,9 @@ function render() {
   }
   if (kind === 'search') return renderSearch();
   renderSeasons();
+  if (kind === 'year' && /^20\d{2}$/.test(id)) {
+    requestAnimationFrame(() => document.querySelector(`.year-card[aria-controls="year-panel-${id}"]`)?.click());
+  }
 }
 
 async function initialise() {
@@ -273,10 +374,20 @@ async function initialise() {
       }
     }
     search.addEventListener('input', searchChanged);
-    Object.values(filters).forEach(select => select.addEventListener('change', searchChanged));
+    Object.values(filters).forEach(select => select.addEventListener('change', updateFilterAction));
+    applyFilters.addEventListener('click', () => {
+      Object.assign(appliedFilters, selectedFilters());
+      updateFilterAction();
+      if (hasSearch()) {
+        if (location.hash !== '#search') location.hash = 'search';
+        else renderSearch();
+      } else if (location.hash === '#search') {
+        location.hash = 'seasons';
+      }
+    });
     window.addEventListener('hashchange', () => {
       render();
-      window.scrollTo(0, 0);
+      if (route().kind !== 'year') window.scrollTo(0, 0);
     });
     render();
   } catch {
