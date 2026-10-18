@@ -18,10 +18,9 @@ const seasons = [
   { id: '2026-finale', year: 2026, season: 'Finale', title: 'The Great Undoing', pdf: 'pdfs/2026/The Great Undoing Write Up.pdf', number: 16 }
 ];
 
-const list = document.querySelector('#season-list');
+const view = document.querySelector('#archive-view');
 const search = document.querySelector('#search');
-const browseSeason = document.querySelector('#browse-season');
-const browseTrail = document.querySelector('#browse-trail');
+const intro = document.querySelector('.archive-intro');
 const filters = {
   year: document.querySelector('#year-filter'),
   season: document.querySelector('#season-filter'),
@@ -29,127 +28,155 @@ const filters = {
   other: document.querySelector('#other-filter'),
   theme: document.querySelector('#theme-filter')
 };
-const count = document.querySelector('#results-count');
-const noResults = document.querySelector('#no-results');
 let trails = [];
+
+function element(tag, className, content) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (content !== undefined) node.textContent = content;
+  return node;
+}
+
+function link(text, href, className) {
+  const node = element('a', className, text);
+  node.href = href;
+  return node;
+}
 
 function addOptions(select, values) {
   [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b)).forEach(value => {
-    const option = document.createElement('option');
-    option.value = value;
-    option.textContent = value;
-    select.append(option);
+    select.add(new Option(value, value));
   });
 }
 
-function pdfLink(pdf) {
-  return new URL(pdf, document.baseURI).href;
+function seasonFor(trail) {
+  return seasons.find(season => trail.id.startsWith(`${season.id}-`));
 }
 
-function trailCard(trail) {
-  const card = document.createElement('article');
-  card.className = 'trail-card';
-  const imageBox = document.createElement('div');
-  imageBox.className = 'trail-image';
+function seasonTrails(season) {
+  return trails.filter(trail => trail.id.startsWith(`${season.id}-`));
+}
+
+function pdfActions(season) {
+  const actions = element('div', 'season-pdf-actions');
+  const url = new URL(season.pdf, document.baseURI).href;
+  const open = link('Open season PDF ↗', url);
+  open.target = '_blank';
+  open.rel = 'noopener';
+  const download = link('Download season PDF ↓', url);
+  download.download = `${season.title} ${season.year}.pdf`;
+  actions.append(open, download);
+  return actions;
+}
+
+function trailImage(trail) {
+  const box = element('div', `trail-image${trail.image ? '' : ' empty'}`);
   if (trail.image) {
     const image = document.createElement('img');
     image.src = trail.image;
-    image.alt = `Artwork for ${trail.title}`;
+    image.alt = `Illustrated card for ${trail.title}`;
     image.loading = 'lazy';
-    imageBox.append(image);
+    box.append(image);
   } else {
-    imageBox.classList.add('empty');
-    imageBox.innerHTML = '<span aria-hidden="true">✦</span><small>PORTRAIT IMAGE TO FOLLOW</small>';
+    box.append(element('span', '', '✦'), element('small', '', 'PORTRAIT IMAGE TO FOLLOW'));
+    box.querySelector('span').setAttribute('aria-hidden', 'true');
   }
+  return box;
+}
 
-  const body = document.createElement('div');
-  body.className = 'trail-card-body';
-  const number = document.createElement('p');
-  number.className = 'trail-number';
-  number.textContent = `TRAIL ${String(trail.number).padStart(2, '0')}${trail.secret ? ' · SECRET TRAIL' : ''}`;
-  const title = document.createElement('h4');
-  title.textContent = trail.title;
-  body.append(number, title);
+function trailMeta(trail, compact = false) {
+  const list = element('dl', 'trail-meta');
+  const rows = compact
+    ? [['Main character', trail.mainCharacter || 'To be confirmed'], ['Themes', trail.themes.join(', ') || '—']]
+    : [['Main character', trail.mainCharacter || 'To be confirmed'], ['Other characters', trail.otherCharacters.join(', ') || '—'], ['Themes', trail.themes.join(', ') || '—']];
+  rows.forEach(([label, value]) => list.append(element('dt', '', label), element('dd', '', value)));
+  return list;
+}
 
-  const meta = document.createElement('dl');
-  meta.className = 'trail-meta';
-  const rows = [
-    ['Main character', trail.mainCharacter || 'To be confirmed'],
-    ['Other characters', trail.otherCharacters.length ? trail.otherCharacters.slice(0, 5).join(', ') + (trail.otherCharacters.length > 5 ? ` +${trail.otherCharacters.length - 5}` : '') : '—'],
-    ['Themes', trail.themes.length ? trail.themes.join(', ') : '—']
-  ];
-  rows.forEach(([label, value]) => {
-    const dt = document.createElement('dt');
-    dt.textContent = label;
-    const dd = document.createElement('dd');
-    dd.textContent = value;
-    meta.append(dt, dd);
-  });
-  body.append(meta);
-
-  const details = document.createElement('details');
-  details.className = 'trail-details';
-  const toggle = document.createElement('summary');
-  toggle.textContent = 'Read trail recap';
-  const full = document.createElement('p');
-  full.textContent = trail.searchText;
-  details.append(toggle, full);
-  body.append(details);
-  card.append(imageBox, body);
+function trailCard(trail, showSeason = false) {
+  const card = link('', `#trail/${trail.id}`, 'trail-card trail-card-link');
+  const body = element('div', 'trail-card-body');
+  body.append(
+    element('p', 'trail-number', `TRAIL ${String(trail.number).padStart(2, '0')}${trail.secret ? ' · SECRET TRAIL' : ''}`),
+    ...(showSeason ? [element('p', 'trail-card-season', `${trail.seasonTitle} · ${trail.year}`)] : []),
+    element('h4', '', trail.title),
+    trailMeta(trail, true),
+    element('span', 'trail-open', 'Read trail →')
+  );
+  card.append(trailImage(trail), body);
   return card;
 }
 
-function seasonSection(season, matches, filtered, showCards = true) {
-  const section = document.createElement('section');
-  section.className = `season-section ${season.season.toLowerCase()}`;
-  section.id = season.id;
-  const header = document.createElement('div');
-  header.className = 'season-section-header';
-  const identity = document.createElement('div');
-  const eyebrow = document.createElement('p');
-  eyebrow.className = 'eyebrow';
-  eyebrow.textContent = `${season.number ? `SEASON ${season.number} · ` : ''}${season.season.toUpperCase()} / ${season.year}`;
-  const title = document.createElement('h3');
-  title.textContent = season.title;
-  const total = document.createElement('p');
-  total.className = 'season-total';
-  total.textContent = season.pending ? 'Write-up in progress' : `${matches.length} trail${matches.length === 1 ? '' : 's'}${filtered ? ' found' : ''}`;
-  identity.append(eyebrow, title, total);
-  header.append(identity);
-  if (season.pdf) {
-    const actions = document.createElement('div');
-    actions.className = 'season-pdf-actions';
-    const open = document.createElement('a');
-    open.href = pdfLink(season.pdf);
-    open.target = '_blank';
-    open.rel = 'noopener';
-    open.textContent = 'Open season PDF ↗';
-    const download = document.createElement('a');
-    download.href = pdfLink(season.pdf);
-    download.download = `${season.title} ${season.year}.pdf`;
-    download.textContent = 'Download season PDF ↓';
-    actions.append(open, download);
-    header.append(actions);
+function heading(eyebrow, title, description) {
+  const wrapper = element('div', 'library-heading');
+  const copy = element('div');
+  copy.append(element('p', 'eyebrow', eyebrow), element('h2', '', title));
+  if (description) copy.append(element('p', 'library-description', description));
+  wrapper.append(copy);
+  return wrapper;
+}
+
+function renderSeasons() {
+  intro.hidden = false;
+  document.title = 'Canada Water Trails · Phantom Peak Trail Archive';
+  view.replaceChildren(heading('THE COLLECTION', 'All seasons', 'Choose a season to see every trail in it.'));
+  for (const year of [...new Set(seasons.map(season => season.year))]) {
+    const group = element('section', 'season-year-group');
+    group.append(element('h3', 'season-year', String(year)));
+    const list = element('div', 'season-index');
+    seasons.filter(season => season.year === year).forEach(season => {
+      const row = link('', `#season/${season.id}`, 'season-index-row');
+      const copy = element('div');
+      copy.append(
+        element('span', 'season-index-tag', `${season.number ? `SEASON ${season.number} · ` : ''}${season.season.toUpperCase()}`),
+        element('h4', '', season.title),
+        element('span', 'season-index-count', `${seasonTrails(season).length} trails`)
+      );
+      row.append(copy, element('span', 'season-index-arrow', '↗'));
+      list.append(row);
+    });
+    group.append(list);
+    view.append(group);
   }
+}
+
+function renderSeason(season) {
+  intro.hidden = true;
+  document.title = `${season.title} ${season.year} · Phantom Peak Trail Archive`;
+  const section = element('section', 'season-page');
+  section.append(link('← All seasons', '#seasons', 'breadcrumb'));
+  const header = element('div', 'season-section-header');
+  const copy = element('div');
+  copy.append(
+    element('p', 'eyebrow', `${season.number ? `SEASON ${season.number} · ` : ''}${season.season.toUpperCase()} / ${season.year}`),
+    element('h2', '', season.title),
+    element('p', 'season-total', `${seasonTrails(season).length} trails`)
+  );
+  header.append(copy, pdfActions(season));
   section.append(header);
-  if (season.pending) {
-    const note = document.createElement('p');
-    note.className = 'pending-season';
-    note.textContent = 'The trail notes for this season will be added here when its write-up is ready.';
-    section.append(note);
-  } else if (showCards) {
-    const cards = document.createElement('div');
-    cards.className = 'trail-grid';
-    if (matches.length === 1) cards.classList.add('single-trail');
-    cards.append(...matches.map(trailCard));
-    section.append(cards);
-  } else {
-    const note = document.createElement('p');
-    note.className = 'choose-trail-note';
-    note.textContent = 'Choose a trail above to read its recap, or open the complete season PDF.';
-    section.append(note);
-  }
-  return section;
+  const grid = element('div', 'trail-grid');
+  grid.append(...seasonTrails(season).map(trailCard));
+  section.append(grid);
+  view.replaceChildren(section);
+}
+
+function renderTrail(trail) {
+  const season = seasonFor(trail);
+  intro.hidden = true;
+  document.title = `${trail.title} · Phantom Peak Trail Archive`;
+  const section = element('section', 'trail-page');
+  const breadcrumbs = element('nav', 'breadcrumbs');
+  breadcrumbs.setAttribute('aria-label', 'Breadcrumb');
+  breadcrumbs.append(link('All seasons', '#seasons'), element('span', '', ' / '), link(`${season.title} ${season.year}`, `#season/${season.id}`));
+  section.append(breadcrumbs);
+  const header = heading(`${season.season.toUpperCase()} / ${season.year} · TRAIL ${String(trail.number).padStart(2, '0')}${trail.secret ? ' · SECRET TRAIL' : ''}`, trail.title);
+  section.append(header);
+  const detail = element('article', 'trail-detail');
+  const copy = element('div', 'trail-detail-copy');
+  copy.append(element('h3', '', 'Trail recap'), element('p', 'trail-description', trail.searchText), trailMeta(trail), pdfActions(season));
+  detail.append(trailImage(trail), copy);
+  section.append(detail);
+  view.replaceChildren(section);
 }
 
 function matchesFilters(trail) {
@@ -163,71 +190,79 @@ function matchesFilters(trail) {
     && (!filters.theme.value || trail.themes.includes(filters.theme.value));
 }
 
-function render() {
-  const searching = Boolean(search.value.trim() || Object.values(filters).some(select => select.value));
-  if (searching) {
-    const matches = trails.filter(matchesFilters);
-    const sections = seasons.filter(season => matches.some(trail => trail.id.startsWith(`${season.id}-`)))
-      .map(season => seasonSection(season, matches.filter(trail => trail.id.startsWith(`${season.id}-`)), true));
-    list.replaceChildren(...sections);
-    count.textContent = `${matches.length} trail${matches.length === 1 ? '' : 's'} found across ${sections.length} season write-ups`;
-    noResults.hidden = matches.length !== 0;
-    return;
-  }
-  noResults.hidden = true;
-  const season = seasons.find(item => item.id === browseSeason.value);
-  if (!season) {
-    list.replaceChildren();
-    count.textContent = `${trails.length} trails across ${seasons.length} season write-ups. Choose a season to begin.`;
-    return;
-  }
-  const seasonTrails = trails.filter(trail => trail.id.startsWith(`${season.id}-`));
-  const selectedTrail = seasonTrails.find(trail => trail.id === browseTrail.value);
-  list.replaceChildren(seasonSection(season, selectedTrail ? [selectedTrail] : seasonTrails, Boolean(selectedTrail), Boolean(selectedTrail)));
-  count.textContent = selectedTrail ? '1 trail selected' : `${seasonTrails.length} trails in ${season.title} ${season.year}. Choose a trail above.`;
+function hasSearch() {
+  return Boolean(search.value.trim() || Object.values(filters).some(select => select.value));
 }
 
-function resetTrailSelect() {
-  browseTrail.replaceChildren(new Option('Select a trail…', ''));
-  const seasonTrails = trails.filter(trail => trail.id.startsWith(`${browseSeason.value}-`));
-  seasonTrails.forEach(trail => browseTrail.add(new Option(`${String(trail.number).padStart(2, '0')} · ${trail.title}`, trail.id)));
-  browseTrail.disabled = !browseSeason.value;
+function renderSearch() {
+  intro.hidden = true;
+  document.title = 'Search trails · Phantom Peak Trail Archive';
+  const matches = hasSearch() ? trails.filter(matchesFilters) : [];
+  const section = element('section', 'search-page');
+  section.append(heading('SEARCH THE ARCHIVE', 'Search results', `${matches.length} trail${matches.length === 1 ? '' : 's'} found`));
+  const clear = element('button', 'clear-filters', 'Clear search and filters');
+  clear.type = 'button';
+  clear.addEventListener('click', () => {
+    search.value = '';
+    Object.values(filters).forEach(select => { select.value = ''; });
+    location.hash = 'seasons';
+    search.focus();
+  });
+  section.append(clear);
+  if (matches.length) {
+    const grid = element('div', 'trail-grid');
+    grid.append(...matches.map(trail => trailCard(trail, true)));
+    section.append(grid);
+  } else {
+    section.append(element('p', 'no-results', hasSearch() ? 'No trails match that search. Try another name, character, theme or season.' : 'Enter a trail, character, season or theme above to search the archive.'));
+  }
+  view.replaceChildren(section);
+}
+
+function route() {
+  const [kind, id] = decodeURIComponent(location.hash.slice(1)).split('/');
+  return { kind, id };
+}
+
+function render() {
+  const { kind, id } = route();
+  if (kind === 'season') {
+    const season = seasons.find(item => item.id === id);
+    if (season) return renderSeason(season);
+  }
+  if (kind === 'trail') {
+    const trail = trails.find(item => item.id === id);
+    if (trail) return renderTrail(trail);
+  }
+  if (kind === 'search') return renderSearch();
+  renderSeasons();
 }
 
 async function initialise() {
   try {
-    const response = await fetch('trails.json?v=4');
+    const response = await fetch('trails.json?v=5');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     trails = await response.json();
-    seasons.forEach(season => browseSeason.add(new Option(`${season.year} · ${season.title}${season.number ? ` (Season ${season.number})` : ` · ${season.season}`}`, season.id)));
     addOptions(filters.main, trails.map(trail => trail.mainCharacter));
     addOptions(filters.other, trails.flatMap(trail => trail.otherCharacters));
     addOptions(filters.theme, trails.flatMap(trail => trail.themes));
-    browseSeason.addEventListener('change', () => {
-      search.value = '';
-      Object.values(filters).forEach(select => { select.value = ''; });
-      resetTrailSelect();
-      render();
-    });
-    browseTrail.addEventListener('change', render);
-    function startSearch() {
-      browseSeason.value = '';
-      resetTrailSelect();
-      render();
+    function searchChanged() {
+      if (hasSearch()) {
+        if (location.hash !== '#search') location.hash = 'search';
+        else renderSearch();
+      } else if (location.hash === '#search') {
+        location.hash = 'seasons';
+      }
     }
-    search.addEventListener('input', startSearch);
-    Object.values(filters).forEach(select => select.addEventListener('change', startSearch));
-    document.querySelector('#clear-filters').addEventListener('click', () => {
-      search.value = '';
-      Object.values(filters).forEach(select => { select.value = ''; });
-      browseSeason.value = '';
-      resetTrailSelect();
+    search.addEventListener('input', searchChanged);
+    Object.values(filters).forEach(select => select.addEventListener('change', searchChanged));
+    window.addEventListener('hashchange', () => {
       render();
-      browseSeason.focus();
+      window.scrollTo(0, 0);
     });
     render();
   } catch {
-    count.textContent = 'The trail index could not load. Please refresh the page.';
+    view.replaceChildren(element('p', 'no-results', 'The trail index could not load. Please refresh the page.'));
   }
 }
 

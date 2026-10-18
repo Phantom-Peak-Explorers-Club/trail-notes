@@ -59,3 +59,54 @@
 .single-trail .trail-details{margin-top:6px}
 @media(max-width:800px){.hero-image{left:35%}.hero-shade{background:linear-gradient(90deg,#081c2b 0%,rgba(8,28,43,.9) 47%,rgba(8,28,43,.28) 100%)}}
 @media(max-width:600px){.site-header{height:78px}.brand img{width:46px;height:46px}.hero-image{left:0;background-position:center 24%}.hero-shade{background:linear-gradient(0deg,#081c2b 0%,rgba(8,28,43,.94) 40%,rgba(8,28,43,.22) 100%)}.hero-content{width:min(100% - 32px,1180px)}.hero h1{font-size:clamp(54px,12vw,72px)}.browse-panel{grid-template-columns:1fr;padding:19px;gap:20px}.archive-search{display:block}.advanced-filters{margin-top:13px}.trail-image{width:min(220px,calc(100% - 36px))}.single-trail .trail-card{display:flex}.single-trail .trail-image{width:min(220px,calc(100% - 36px));margin:20px auto 0}}
+
+/* Collection navigation and supplied photography. */
+[hidden]{display:none!important}
+.brand-lockup{display:flex;flex-direction:column;gap:3px;line-height:1.05}
+.brand-lockup strong{font-size:17px;letter-spacing:.11em}
+.brand-lockup small{font-size:10px;letter-spacing:.23em;color:var(--red)}
+.hero-image{left:43%;background-image:url('assets/phantom-peak-interior.jpg');background-position:center 42%}
+.hero-shade{background:linear-gradient(90deg,#081c2b 0%,#081c2b 33%,rgba(8,28,43,.82) 47%,rgba(8,28,43,.12) 74%,transparent 100%)}
+.location-canada{background-image:linear-gradient(0deg,rgba(8,28,43,.94) 0%,rgba(8,28,43,.55) 42%,rgba(8,28,43,.15) 100%),url('assets/canada-water-evening.jpg');background-size:cover;background-position:center}
+.location-canada::before{display:none}
+.location-canada:hover{background-image:linear-gradient(0deg,rgba(8,28,43,.87) 0%,rgba(8,28,43,.42) 42%,rgba(8,28,43,.08) 100%),url('assets/canada-water-evening.jpg')}
+.archive-intro-art{width:330px;min-width:270px;aspect-ratio:4/3;border-radius:4px;background:#d7bca1;box-shadow:12px 12px 0 #e9d9b6}
+.archive-intro-art img{width:100%;height:100%;object-fit:cover;object-position:center}
+.archive-search-bar{position:sticky;top:0;z-index:10;display:flex;align-items:flex-start;gap:26px;padding-block:14px;background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.archive-search-bar>label{display:flex;align-items:center;gap:16px;min-width:min(100%,550px);font-size:13px;font-weight:700;color:var(--ink)}
+.archive-search-bar input{width:min(100%,360px);height:44px;border:1px solid #bdb1a8;background:var(--paper);padding:0 13px;color:var(--ink)}
+.archive-search-bar input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.archive-search-bar .advanced-filters{padding-top:8px;min-width:120px}
+.archive-search-bar .advanced-filters .filter-grid{width:min(790px,calc(100vw - 80px));margin:17px 0 5px}
+.library-description{font-size:15px;line-height:1.6;color:var(--muted);margin:14px 0 0}
+.season-year-group{padding-block:17px 26px;border-bottom:1px solid var(--line)}
+.season-year{font-size:27px;margin:0 0 18px;color:var(--plum)}
+.season-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.season-index-row{min-height:115px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 24px;background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--plum);text-decoration:none}
+.season-index-row:hover,.season-index-row:focus-visible{border-color:var(--red);transform:translateY(-2px)}
+.season-index-row h4{font-family:'Playfair Display',Georgia,serif;font-size:25px;line-height:1.15;margin:7px 0 8px}
+.season-index-tag{font-size:10px;font-weight:700;letter-spacing:.14em;color:#a33c39}
+.season-index-count{font-size:12px;color:var(--muted)}
+.season-index-arrow{font-size:27px;color:var(--red)}
+.breadcrumb,.breadcrumbs{display:block;margin:0 0 28px;color:var(--plum);font-size:13px;font-weight:700}
+.breadcrumb,.breadcrumbs a{text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:3px}
+.season-page .season-section-header{padding-bottom:25px;margin-bottom:27px;border-bottom:1px solid var(--line)}
+.season-page .season-section-header h2{margin:0 0 9px}
+.trail-card-link{text-decoration:none;color:var(--ink);transition:transform .15s ease,box-shadow .15s ease}
+.trail-card-link:hover,.trail-card-link:focus-visible{transform:translateY(-3px);box-shadow:0 11px 22px rgba(8,28,43,.12);border-color:var(--red)}
+.trail-card-link .trail-meta{margin-top:auto}
+.trail-card-season{font-size:12px;color:var(--muted);margin:-4px 0 10px}
+.trail-open{font-size:12px;font-weight:700;color:#a03634;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+.trail-page .library-heading{margin-bottom:26px}
+.trail-page .library-heading h2{max-width:850px}
+.trail-detail{display:grid;grid-template-columns:minmax(250px,330px) minmax(0,1fr);gap:36px;align-items:start;padding:30px;background:var(--paper);border:1px solid var(--line)}
+.trail-detail .trail-image{width:min(100%,300px);margin:0 auto}
+.trail-detail-copy h3{font-size:28px;margin:0 0 18px}
+.trail-description{font-size:16px;line-height:1.75;color:#3b4347;margin-bottom:27px;white-space:pre-wrap}
+.trail-detail-copy .trail-meta{grid-template-columns:125px 1fr;font-size:13px;margin-bottom:24px}
+.trail-detail-copy .season-pdf-actions{justify-content:flex-start}
+.search-page .library-heading{margin-bottom:18px}
+.search-page .clear-filters{margin-bottom:24px}
+.search-page .no-results{margin-top:20px}
+@media(max-width:800px){.archive-search-bar{position:static;flex-wrap:wrap}.archive-search-bar .advanced-filters .filter-grid{width:100%}.season-index{grid-template-columns:1fr}.trail-detail{grid-template-columns:240px minmax(0,1fr);gap:23px}.hero-image{left:32%}}
+@media(max-width:600px){.brand-lockup strong{font-size:12px}.brand-lockup small{font-size:8px}.header-back{font-size:11px}.hero-image{left:0;background-position:center}.hero-shade{background:linear-gradient(0deg,#081c2b 0%,rgba(8,28,43,.94) 42%,rgba(8,28,43,.28) 100%)}.archive-search-bar{padding-block:15px;gap:8px}.archive-search-bar>label{display:block}.archive-search-bar input{display:block;width:100%;margin-top:7px}.archive-search-bar .advanced-filters{padding-top:0}.archive-search-bar .filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.season-index-row{min-height:102px;padding:17px}.season-index-row h4{font-size:22px}.season-page .season-section-header{display:block}.season-page .season-pdf-actions{justify-content:flex-start;margin-top:20px}.trail-detail{display:block;padding:20px}.trail-detail .trail-image{width:min(250px,100%);margin:0 auto 25px}.trail-description{font-size:15px}}
