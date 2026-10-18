@@ -161,7 +161,7 @@ function fillYearPanel(panel, year) {
   seasons.filter(season => season.year === year).forEach(season => {
     const group = element('section', 'year-panel-season');
     const seasonHeader = element('div', 'year-panel-season-header');
-    seasonHeader.append(element('h4', '', season.title), link('View season cards ↗', `#season/${season.id}`));
+    seasonHeader.append(element('h4', '', season.title), link('View season ↗', `#season/${season.id}`));
     group.append(seasonHeader);
     const list = element('ol', 'year-trail-list');
     seasonTrails(season).forEach(trail => {
@@ -195,10 +195,14 @@ function renderSeasons() {
   yearNav.append(element('h3', 'year-nav-title', 'Trails By Year'));
   const yearGrid = element('div', 'year-grid');
   const panels = element('div', 'year-panels');
+  const divider = element('div', 'year-list-divider year-list-divider-empty');
   const yearEntries = [];
   let allCard;
   function updateAllCard() {
+    const anyOpen = yearEntries.some(entry => !entry.panel.hidden);
     const allOpen = yearEntries.every(entry => !entry.panel.hidden);
+    divider.textContent = anyOpen ? 'TRAIL REGISTERS' : '';
+    divider.classList.toggle('year-list-divider-empty', !anyOpen);
     allCard.setAttribute('aria-expanded', String(allOpen));
     allCard.querySelector('.year-card-action').textContent = allOpen ? 'Close every register ↑' : 'Open every register ↓';
   }
@@ -260,7 +264,7 @@ function renderSeasons() {
   });
   yearGrid.append(allCard);
   yearNav.append(yearGrid);
-  view.append(yearNav, element('div', 'year-list-divider', 'TRAIL REGISTERS'), panels);
+  view.append(yearNav, divider, panels);
   view.append(element('h3', 'season-tiles-heading', 'Trails By Season'));
   for (const year of years) {
     const group = element('section', 'season-year-group');
