@@ -155,7 +155,7 @@ function renderSeason(season) {
   header.append(copy, pdfActions(season));
   section.append(header);
   const grid = element('div', 'trail-grid');
-  grid.append(...seasonTrails(season).map(trailCard));
+  grid.append(...seasonTrails(season).map(trail => trailCard(trail)));
   section.append(grid);
   view.replaceChildren(section);
 }
@@ -226,6 +226,10 @@ function route() {
 
 function render() {
   const { kind, id } = route();
+  if (kind !== 'search') {
+    search.value = '';
+    Object.values(filters).forEach(select => { select.value = ''; });
+  }
   if (kind === 'season') {
     const season = seasons.find(item => item.id === id);
     if (season) return renderSeason(season);
