@@ -11,7 +11,7 @@ A public archive of Phantom Peak Canada Water trail write-ups, organised by year
 - `pdfs/`: season write-ups from 2022 through The Great Undoing (2026)
 - `content/`: new write-ups drafted from supplied notes for Seasons 14–16
 - `scripts/build_new_seasons.py`: regenerates the three new PDFs and their trail entries
-- `assets/`: supplied venue photos, the PPEC favicon, and illustrated trail cards
+- `assets/`: supplied venue photos, the PPEC favicon, illustrated trail cards, and 17 season covers in `season-art/`
 
 The 2025 Hallowed Peak and Wintermas write-ups and the 2026 Great Undoing write-up were drafted from notes supplied for the archive. Earlier season PDFs are the supplied source files.
 

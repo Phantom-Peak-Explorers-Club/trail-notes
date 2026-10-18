@@ -3,7 +3,7 @@ const seasons = [
   { id: '2022-autumn', year: 2022, season: 'Autumn', title: 'Hallowed Peak', pdf: 'pdfs/2022/Hallowed Peak 22 Write Up.pdf' },
   { id: '2022-winter', year: 2022, season: 'Winter', title: 'Wintermas', pdf: 'pdfs/2022/Wintermas Phantom Peak 22 Write Up.pdf' },
   { id: '2023-spring', year: 2023, season: 'Spring', title: 'Platypus Parade', pdf: 'pdfs/2023/Platypus Parade Write Up.pdf' },
-  { id: '2023-summer', year: 2023, season: 'Summer', title: "Summer's Peak", pdf: "pdfs/2023/Summer's Peak Write Up.pdf" },
+  { id: '2023-summer', year: 2023, season: 'Summer', title: 'Summer’s Peak', pdf: "pdfs/2023/Summer's Peak Write Up.pdf" },
   { id: '2023-autumn', year: 2023, season: 'Autumn', title: 'Hallowed Peak', pdf: 'pdfs/2023/2023 Hallowed Peak Write Up.pdf' },
   { id: '2023-winter', year: 2023, season: 'Winter', title: 'Christmas at the Peak', pdf: 'pdfs/2023/2023 Christmas At The Peak Write Up.pdf' },
   { id: '2023-special', year: 2023, season: 'Special', title: 'Special Event Trails', pdf: 'pdfs/2023/2023 Special Event Trail Write Ups.pdf' },
@@ -55,6 +55,22 @@ function seasonFor(trail) {
 
 function seasonTrails(season) {
   return trails.filter(trail => trail.id.startsWith(`${season.id}-`));
+}
+
+function seasonArtwork(season, headingTag = 'h4') {
+  const artwork = element('div', 'season-art');
+  const image = document.createElement('img');
+  image.src = `assets/season-art/${season.id}.webp`;
+  image.alt = `Jonabot and Jonabot Jr exploring ${season.title} (${season.year})`;
+  image.loading = 'lazy';
+  image.decoding = 'async';
+  const overlay = element('div', 'season-art-overlay');
+  overlay.append(
+    element(headingTag, 'season-art-title', season.title),
+    element('span', 'season-art-place', `${season.year} · Canada Water`)
+  );
+  artwork.append(image, overlay);
+  return artwork;
 }
 
 function pdfActions(season) {
@@ -126,13 +142,12 @@ function renderSeasons() {
     const list = element('div', 'season-index');
     seasons.filter(season => season.year === year).forEach(season => {
       const row = link('', `#season/${season.id}`, 'season-index-row');
-      const copy = element('div');
-      copy.append(
-        element('span', 'season-index-tag', `${season.number ? `SEASON ${season.number} · ` : ''}${season.season.toUpperCase()}`),
-        element('h4', '', season.title),
-        element('span', 'season-index-count', `${seasonTrails(season).length} trails`)
+      const details = element('div', 'season-index-details');
+      details.append(
+        element('span', 'season-index-count', `${seasonTrails(season).length} trails`),
+        element('span', 'season-index-arrow', 'Explore season ↗')
       );
-      row.append(copy, element('span', 'season-index-arrow', '↗'));
+      row.append(seasonArtwork(season), details);
       list.append(row);
     });
     group.append(list);
@@ -145,11 +160,10 @@ function renderSeason(season) {
   document.title = `${season.title} ${season.year} · Phantom Peak Trail Archive`;
   const section = element('section', 'season-page');
   section.append(link('← All seasons', '#seasons', 'breadcrumb'));
+  section.append(seasonArtwork(season, 'h2'));
   const header = element('div', 'season-section-header');
   const copy = element('div');
   copy.append(
-    element('p', 'eyebrow', `${season.number ? `SEASON ${season.number} · ` : ''}${season.season.toUpperCase()} / ${season.year}`),
-    element('h2', '', season.title),
     element('p', 'season-total', `${seasonTrails(season).length} trails`)
   );
   header.append(copy, pdfActions(season));
