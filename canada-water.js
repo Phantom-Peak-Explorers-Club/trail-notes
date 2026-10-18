@@ -161,7 +161,7 @@ function fillYearPanel(panel, year) {
   seasons.filter(season => season.year === year).forEach(season => {
     const group = element('section', 'year-panel-season');
     const seasonHeader = element('div', 'year-panel-season-header');
-    seasonHeader.append(element('h4', '', season.title), link('View season ↗', `#season/${season.id}`));
+    seasonHeader.append(element('h4', '', season.title), link('View Season ↗', `#season/${season.id}`));
     group.append(seasonHeader);
     const list = element('ol', 'year-trail-list');
     seasonTrails(season).forEach(trail => {
