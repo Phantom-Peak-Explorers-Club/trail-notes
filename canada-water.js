@@ -109,7 +109,7 @@ function pdfActions(season) {
 function trailImage(trail) {
   const box = element('div', `trail-image${trail.image ? '' : ' pending'}`);
   const image = document.createElement('img');
-  image.src = trail.image || 'assets/trail-card-pending.png';
+  image.src = trail.image || 'assets/trail-card-pending.png?v=2';
   image.alt = trail.image ? `Illustrated card for ${trail.title}` : `Trail card artwork to follow for ${trail.title}`;
   image.loading = 'lazy';
   box.append(image);
