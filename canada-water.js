@@ -192,7 +192,7 @@ function renderSeasons() {
   const years = [...new Set(seasons.map(season => season.year))];
   const yearNav = element('nav', 'year-nav');
   yearNav.setAttribute('aria-label', 'Browse trail registers by year');
-  yearNav.append(element('h3', 'year-nav-title', 'Open the trail registers by year'));
+  yearNav.append(element('h3', 'year-nav-title', 'Trails By Year'));
   const yearGrid = element('div', 'year-grid');
   const panels = element('div', 'year-panels');
   const yearEntries = [];
@@ -261,6 +261,7 @@ function renderSeasons() {
   yearGrid.append(allCard);
   yearNav.append(yearGrid);
   view.append(yearNav, element('div', 'year-list-divider', 'TRAIL REGISTERS'), panels);
+  view.append(element('h3', 'season-tiles-heading', 'Trails By Season'));
   for (const year of years) {
     const group = element('section', 'season-year-group');
     group.id = `year-${year}`;
