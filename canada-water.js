@@ -60,7 +60,7 @@ function seasonTrails(season) {
 function seasonArtwork(season, headingTag = 'h4') {
   const artwork = element('div', 'season-art');
   const image = document.createElement('img');
-  image.src = `assets/season-art/${season.id}.webp`;
+  image.src = `assets/season-art/${season.id}.webp?v=2`;
   image.alt = `Jonabot and Jonabot Jr exploring ${season.title} (${season.year})`;
   image.loading = 'lazy';
   image.decoding = 'async';
