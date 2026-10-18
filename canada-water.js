@@ -188,13 +188,32 @@ function fillYearPanel(panel, year) {
 function renderSeasons() {
   intro.hidden = false;
   document.title = 'Canada Water Trails · Phantom Peak Trail Archive';
-  view.replaceChildren(heading('THE COLLECTION', 'All seasons', 'Open any years to read their trail lists here, or browse the season artwork below.'));
+  view.replaceChildren(heading('THE COLLECTION', 'All seasons', 'Open any year or all years to read the trail lists here, or browse the season artwork below.'));
   const years = [...new Set(seasons.map(season => season.year))];
   const yearNav = element('nav', 'year-nav');
   yearNav.setAttribute('aria-label', 'Browse trail registers by year');
   yearNav.append(element('h3', 'year-nav-title', 'Open the trail registers by year'));
   const yearGrid = element('div', 'year-grid');
   const panels = element('div', 'year-panels');
+  const yearEntries = [];
+  let allCard;
+  function updateAllCard() {
+    const allOpen = yearEntries.every(entry => !entry.panel.hidden);
+    allCard.setAttribute('aria-expanded', String(allOpen));
+    allCard.querySelector('.year-card-action').textContent = allOpen ? 'Close every register ↑' : 'Open every register ↓';
+  }
+  function setYearOpen(entry, opening, scroll = false) {
+    const { card, panel, year } = entry;
+    if (opening && !panel.dataset.loaded) {
+      fillYearPanel(panel, year);
+      panel.dataset.loaded = 'true';
+    }
+    panel.hidden = !opening;
+    card.setAttribute('aria-expanded', String(opening));
+    card.querySelector('.year-card-action').textContent = opening ? 'Close trail register ↑' : 'Open trail register ↓';
+    updateAllCard();
+    if (opening && scroll) requestAnimationFrame(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
   for (const year of years) {
     const yearSeasons = seasons.filter(season => season.year === year);
     const yearTrails = yearSeasons.reduce((total, season) => total + seasonTrails(season).length, 0);
@@ -217,22 +236,31 @@ function renderSeasons() {
     const panel = element('section', 'year-panel');
     panel.id = `year-panel-${year}`;
     panel.hidden = true;
-    card.addEventListener('click', () => {
-      const opening = panel.hidden;
-      if (opening && !panel.dataset.loaded) {
-        fillYearPanel(panel, year);
-        panel.dataset.loaded = 'true';
-      }
-      panel.hidden = !opening;
-      card.setAttribute('aria-expanded', String(opening));
-      card.querySelector('.year-card-action').textContent = opening ? 'Close trail register ↑' : 'Open trail register ↓';
-      if (opening) requestAnimationFrame(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    });
+    const entry = { card, panel, year };
+    yearEntries.push(entry);
+    card.addEventListener('click', () => setYearOpen(entry, panel.hidden, true));
     yearGrid.append(card);
     panels.append(panel);
   }
+  allCard = element('button', 'year-card year-card-all');
+  allCard.type = 'button';
+  allCard.setAttribute('aria-expanded', 'false');
+  allCard.setAttribute('aria-controls', years.map(year => `year-panel-${year}`).join(' '));
+  allCard.append(
+    Object.assign(document.createElement('img'), { className: 'year-card-image', src: 'assets/phantom-peak-interior.jpg', alt: '', loading: 'lazy' }),
+    element('span', 'year-card-label', 'CANADA WATER / COMPLETE INDEX'),
+    element('span', 'year-card-year', 'ALL YEARS'),
+    element('span', 'year-card-count', `${years.length} years · ${trails.length} trails`),
+    element('span', 'year-card-action', 'Open every register ↓')
+  );
+  allCard.addEventListener('click', () => {
+    const opening = yearEntries.some(entry => entry.panel.hidden);
+    yearEntries.forEach(entry => setYearOpen(entry, opening));
+    if (opening) requestAnimationFrame(() => panels.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  });
+  yearGrid.append(allCard);
   yearNav.append(yearGrid);
-  view.append(yearNav, panels);
+  view.append(yearNav, element('div', 'year-list-divider', 'TRAIL REGISTERS'), panels);
   for (const year of years) {
     const group = element('section', 'season-year-group');
     group.id = `year-${year}`;
