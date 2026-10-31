@@ -329,7 +329,7 @@ function renderTrail(trail) {
 
 function matchesFilters(trail) {
   const query = search.value.trim().toLocaleLowerCase();
-  const text = [trail.title, trail.seasonTitle, trail.season, trail.year, trail.mainCharacter, ...trail.otherCharacters, ...trail.themes, trail.searchText].join(' ').toLocaleLowerCase();
+  const text = [trail.title, trail.seasonTitle, trail.season, trail.year, trail.mainCharacter, ...trail.otherCharacters, ...(trail.aliases || []), ...trail.themes, trail.searchText].join(' ').toLocaleLowerCase();
   return (!query || text.includes(query))
     && (!appliedFilters.year || String(trail.year) === appliedFilters.year)
     && (!appliedFilters.season || trail.season === appliedFilters.season)
@@ -395,7 +395,7 @@ function render() {
 
 async function initialise() {
   try {
-    const response = await fetch('trails.json?v=5');
+    const response = await fetch('trails.json?v=6');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     trails = await response.json();
     addOptions(filters.main, trails.map(trail => trail.mainCharacter));
