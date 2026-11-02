@@ -395,7 +395,7 @@ function render() {
 
 async function initialise() {
   try {
-    const response = await fetch('trails.json?v=7');
+    const response = await fetch('trails.json?v=8');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     trails = await response.json();
     addOptions(filters.main, trails.map(trail => trail.mainCharacter));

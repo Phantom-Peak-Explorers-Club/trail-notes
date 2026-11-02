@@ -15,6 +15,8 @@ A public archive of Phantom Peak Canada Water trail write-ups, organised by year
 
 The 2025 Hallowed Peak and Wintermas write-ups and the 2026 Great Undoing write-up were drafted from notes supplied for the archive. Earlier season PDFs are the supplied source files.
 
+The indexed recap for **The Dramatic Question** (Summer 2023) corrects the diamant mapping to **blue = time, red = space, purple = both**. The supplied season PDF is retained as the original source file.
+
 The site is static and runs on GitHub Pages at https://ppec.club/trail-notes/. For local browsing, serve the repository over HTTP so the page can load `trails.json`.
 
 The Canada Water page lists every season by year. Selecting a season shows all of its trails; selecting a trail opens its portrait card and full recap. Search at the top matches trail names, characters, seasons, themes and recap text across the archive. Season PDFs can be opened or downloaded from season and trail pages. Cards use 55:85 portrait image slots. Add an image file and set that trail’s `image` path in `trails.json` when its artwork is ready.
